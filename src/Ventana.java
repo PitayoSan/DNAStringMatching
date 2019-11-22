@@ -5,28 +5,21 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.*;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.text.AttributeSet;
 import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyleContext;
 
 public class Ventana extends JFrame{
 	private Panel panel;
@@ -51,12 +44,15 @@ class Panel extends JPanel{
 					btnTaq;
 	
 	
-	private JScrollPane scrollPane;
-	private String texto;
-
-	private JTextArea pane;
+// -----------------------------------------
 	private StyledDocument document;
 	private Style style;
+	
+	private JTextPane textPane;
+	private JScrollPane	scrollPane2;
+
+	
+// -----------------------------------------	
 	
 	public Panel(JFrame frame) {
 		super();
@@ -64,16 +60,28 @@ class Panel extends JPanel{
 		this.setBackground(Color.darkGray.darker());
 		this.setLayout(null);
 		crearBotones();
-		
-		
-		
+		pintaNegro("hola jeje",false);
+		pintaNegro("negro",false);
+		pintaNegro("esto va en rojo",true);
 		
 	}
 	
-	public void pintaNegro(String texto, Color color) {
-		StyleConstants.setForeground(style, Color.red);
-		try { document.insertString(document.getLength(), "BLAH ",style); }
-        catch (BadLocationException e){}
+	public void pintaNegro(String texto, boolean flag) {
+		style = textPane.addStyle("Main Style", null);
+		if (flag) {
+			StyleConstants.setForeground(style, Color.red);
+			try { document.insertString(document.getLength(), texto,style); }
+	        catch (BadLocationException e){}
+		}
+		else {
+			StyleConstants.setForeground(style, Color.black);
+			try { document.insertString(document.getLength(), texto,style); }
+	        catch (BadLocationException e){}
+		}
+		
+		
+		
+		
 	}
 	
 	
@@ -120,8 +128,9 @@ class Panel extends JPanel{
 		this.btnMst.setVisible(true);
 		this.btnNot.setVisible(true);
 		this.btnTaq.setVisible(true);
-		this.pane.setVisible(true);
-		scrollPane.setVisible(true);
+		//this.pane.setVisible(true);
+		//scrollPane.setVisible(true);
+		scrollPane2.setVisible(true);
 		
 		//this.scrollPane.setVisible(true);
 		
@@ -176,30 +185,40 @@ class Panel extends JPanel{
 			}
 		});
 		
-		String cadena ="holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaholaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaholaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaholaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaholaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaholaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaholaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaholaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaholaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaholaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaholaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaholaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaholaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-		pane = new JTextArea(cadena);
-		JTextPane panel = new JTextPane();
-		panel.setText(cadena);
-		pane.setWrapStyleWord(true);
-		pane.setLineWrap(true);
-		document = panel.getStyledDocument();
-		 Style style = panel.addStyle("I'm a Style", null);
-	        StyleConstants.setForeground(style, Color.red);
-
-	        try { document.insertString(document.getLength(), "BLAH ",style); }
-	        catch (BadLocationException e){}
+//		document = panel.getStyledDocument();
+//		 Style style = panel.addStyle("I'm a Style", null);
+//	        StyleConstants.setForeground(style, Color.red);
+//
+//	        try { document.insertString(document.getLength(), "BLAH ",style); }
+//	        catch (BadLocationException e){}
 //		document = pane.getStyledDocument();
 //		style = pane.addStyle("I'm a Style", null);
 //		pintaNegro("asdfadfs", Color.red);
 //		frame.getContentPane().add(pane);
-//		
-		pane.setEditable(false);
 		
-		scrollPane = new JScrollPane(pane,
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(200, 20, 900, 750);
-		this.add(scrollPane);
+		
+		
+		textPane = new JTextPane();
+		textPane.setEditable(false);
+		/*
+		textPane.setText("This is demo text1. This is demo text2. This is demo text3."
+		         + "This is demo text4.This is demo text5. This is demo text6. "
+		         + "This is demo text7. This is demo text8. This is demo text9. "
+		         + "This is demo text10. This is demo text11. This is demo text12."
+		         + "This is demo text13. This is demo text13. This is demo text14."
+		         + "This is demo text15. This is demo text13. This is demo text16."
+		         + " This is demo text17. This is demo text13. This is demo text18."
+		         + " This is demo text19.This is demo text13.This is demo text20.");
+		*/
+		scrollPane2 = new JScrollPane(textPane);
+		scrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scrollPane2.setBounds(200, 20, 900, 750);
+		this.add(scrollPane2);
+		
+		document = textPane.getStyledDocument();
+		style = textPane.addStyle("Main Style", null);
+		
+		
 		
 	}
 }
