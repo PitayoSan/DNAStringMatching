@@ -12,7 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
@@ -31,7 +33,7 @@ public class Ventana extends JFrame{
 	
 	public Ventana(){
 		super();
-		this.panel = new Panel();
+		this.panel = new Panel(this);
 		this.add(panel);
 		this.pack();
 		this.setVisible(true);
@@ -48,11 +50,15 @@ class Panel extends JPanel{
 					btnNot,
 					btnTaq;
 	
-	private JTextPane pane;
+	
 	private JScrollPane scrollPane;
 	private String texto;
+
+	private JTextArea pane;
+	private StyledDocument document;
+	private Style style;
 	
-	public Panel() {
+	public Panel(JFrame frame) {
 		super();
 		this.setPreferredSize(new Dimension(1200,810));
 		this.setBackground(Color.darkGray.darker());
@@ -60,19 +66,36 @@ class Panel extends JPanel{
 		crearBotones();
 		
 		
-		pane = new JTextPane();
-		pane.setEditable(false);
-		scrollPane = new JScrollPane(pane);
-		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		scrollPane.setBounds(300, 200, 300, 200);
-		scrollPane.setVisible(true);
-		this.add(scrollPane);
-		texto = "";
-		paintText('a');
-		
 		
 		
 	}
+	
+	public void pintaNegro(String texto, Color color) {
+		StyleConstants.setForeground(style, Color.red);
+		try { document.insertString(document.getLength(), "BLAH ",style); }
+        catch (BadLocationException e){}
+	}
+	
+	
+	
+//	public void paintBlackText(String textito) {
+//		
+//		
+//		StyleContext context = new StyleContext();
+//		// build a style
+//		Style style = context.addStyle("test", null);
+//		// set some style properties
+//		StyleConstants.setForeground(style, Color.BLUE);
+//		// add some data to the document
+//		try {
+//			document.insertString(0, textito, style);
+//		} catch (BadLocationException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//	}
+//	
 	
 	private void appendToPane(JTextPane tp, String msg, Color c)
     {
@@ -89,48 +112,8 @@ class Panel extends JPanel{
     }
 	
 	
-	public void paintText(char textito) {
-		boolean flag = true;
-		pane.setText(this.texto + textito);
-		
-		StyledDocument doc = pane.getStyledDocument();
-        //Style style = pane.addStyle("I'm a Style", null);
-        
-        appendToPane(pane, "My Name is Too Good.\n", Color.RED);
-        getContentPane().add();
-        /*
-        StyleConstants.setForeground(style, Color.red);
-        
-		try { doc.insertString(doc.getLength(), textito +"",style); }
-		catch (BadLocationException e){
-			System.out.println("error");
-		}
-        */
-        
-        //char[]texto= textito.toCharArray();
-        
-        
-        /*
-        for(int i=0;i<texto.length;i++) {
-        		if(flag) {
-        			StyleConstants.setForeground(style, Color.red);
-        			try { doc.insertString(doc.getLength(), texto[i]+"",style); }
-        			catch (BadLocationException e){}
-        		}
-        		else {
-        			StyleConstants.setForeground(style, Color.black);
-        			try { doc.insertString(doc.getLength(), texto[i]+"",style); }
-        			catch (BadLocationException e){}
-        		}
-        }
-        */
-        
-	}
 	
 	
-	public void paintBlackText(char character) {
-		
-	}
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -138,11 +121,16 @@ class Panel extends JPanel{
 		this.btnNot.setVisible(true);
 		this.btnTaq.setVisible(true);
 		this.pane.setVisible(true);
-		this.scrollPane.setVisible(true);
+		scrollPane.setVisible(true);
+		
+		//this.scrollPane.setVisible(true);
 		
 		
 		g.setColor(Color.WHITE);
 		g.fillRect(200, 20, 900, 750);
+		
+		g.setColor(Color.red);
+		
 	}
 	
 	private void crearBotones() {
@@ -187,5 +175,31 @@ class Panel extends JPanel{
 				repaint();
 			}
 		});
+		
+		String cadena ="holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaholaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaholaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaholaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaholaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaholaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaholaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaholaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaholaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaholaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaholaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaholaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaholaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+		pane = new JTextArea(cadena);
+		JTextPane panel = new JTextPane();
+		panel.setText(cadena);
+		pane.setWrapStyleWord(true);
+		pane.setLineWrap(true);
+		document = panel.getStyledDocument();
+		 Style style = panel.addStyle("I'm a Style", null);
+	        StyleConstants.setForeground(style, Color.red);
+
+	        try { document.insertString(document.getLength(), "BLAH ",style); }
+	        catch (BadLocationException e){}
+//		document = pane.getStyledDocument();
+//		style = pane.addStyle("I'm a Style", null);
+//		pintaNegro("asdfadfs", Color.red);
+//		frame.getContentPane().add(pane);
+//		
+		pane.setEditable(false);
+		
+		scrollPane = new JScrollPane(pane,
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setBounds(200, 20, 900, 750);
+		this.add(scrollPane);
+		
 	}
 }
