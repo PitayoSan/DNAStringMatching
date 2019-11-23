@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.JButton;
@@ -35,17 +36,16 @@ public class Ventana extends JFrame{
 	}
 	public static void main(String[] args) {
 		new Ventana();
-		System.out.println("fin");
 	}
 }
 
 class Panel extends JPanel{
 	private JButton btnBuscar;
+	String[] nombreEnzimas;
 	
 	JComboBox<String> listaEnzimas;
 // -----------------------------------------
 	private StyledDocument document;
-	private Style style;
 	
 	private JTextPane textPane;
 	private JScrollPane	scrollPane2;
@@ -59,14 +59,28 @@ class Panel extends JPanel{
 		this.setPreferredSize(new Dimension(1200,810));
 		this.setBackground(Color.darkGray.darker());
 		this.setLayout(null);
-		String[] array = {"hola","no","v","si"};
-		crearBotones(array);
+		
+		ArrayList<String[][]> enzimas = new ArrayList<String[][]>();
+		String[][] mst2 = {{"MstII"},{"CCTAAGG"}};
+		String[][] not = {{"NotI"},{"GCGGCCGC"}};
+		String[][] taq = {{"TaqI"},{"TCGA"}};
+		
+		enzimas.add(mst2);
+		enzimas.add(not);
+		enzimas.add(taq);
+		
+		nombreEnzimas = obtenerEnzimas(enzimas);
+		crearBotones(nombreEnzimas);
 		keyWord = new SimpleAttributeSet();
 	    StyleConstants.setForeground(keyWord, Color.RED);
 	    StyleConstants.setBold(keyWord, true);
 		pintaNegro("hola jeje ",false);
 		pintaNegro("negro ",false);
 		pintaNegro("esto va en rojo",true);
+		
+		
+		
+		
 	}
 	
 	public void pintaNegro(String texto, boolean flag) {
@@ -169,8 +183,15 @@ class Panel extends JPanel{
 		
 		document = textPane.getStyledDocument();
 //		style = textPane.addStyle("Main Style", null);
-		
-		
-		
+	}
+	
+	private String[] obtenerEnzimas(ArrayList<String[][]> enzimas){
+		String[] nombres = new String[enzimas.size()];
+		int pos = 0;
+		for(String[][] enzima: enzimas) {
+			System.out.println("["+enzima[0][0]+"]["+enzima[1][0]+"]");
+			nombres[pos++] = enzima[0][0];
+		}
+		return nombres;
 	}
 }
