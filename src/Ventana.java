@@ -179,7 +179,7 @@ class Panel extends JPanel{
 						pintaLetras(" ",false);
 					}
 					if(!(pos == indexes.size())) {
-						if (i == indexes.get(pos)+1) {
+						if (i == indexes.get(pos)) {
 //							System.out.println("entro!");
 							for(int j = 0; j < tamanoSecuencia; j++) {
 								pintaLetras(Character.toString(prueba.charAt(i)),true);
@@ -228,6 +228,7 @@ class Panel extends JPanel{
 		int pos = 0;
 		for(String[] enzima: enzimas) {
 			this.secuencias[pos] = enzima[1];
+			System.out.println(enzima[1]);
 			nombres[pos++] = enzima[0];
 		}
 		return nombres;
