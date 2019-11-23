@@ -42,6 +42,7 @@ public class Ventana extends JFrame{
 class Panel extends JPanel{
 	private JButton btnBuscar;
 	String[] nombreEnzimas;
+	DNAStringMatching dsm;
 	
 	JComboBox<String> listaEnzimas;
 // -----------------------------------------
@@ -59,17 +60,16 @@ class Panel extends JPanel{
 		this.setPreferredSize(new Dimension(1200,810));
 		this.setBackground(Color.darkGray.darker());
 		this.setLayout(null);
+		dsm = new DNAStringMatching();
 		
-		ArrayList<String[][]> enzimas = new ArrayList<String[][]>();
-		String[][] mst2 = {{"MstII"},{"CCTAAGG"}};
-		String[][] not = {{"NotI"},{"GCGGCCGC"}};
-		String[][] taq = {{"TaqI"},{"TCGA"}};
+		dsm.ingresaTexto();
+		dsm.procesarArchivo();
+		dsm.crearTablas();
+		dsm.busquedaGeneral(0);
+		dsm.busquedaGeneral(1);
+		dsm.busquedaGeneral(2);
 		
-		enzimas.add(mst2);
-		enzimas.add(not);
-		enzimas.add(taq);
-		
-		nombreEnzimas = obtenerEnzimas(enzimas);
+		nombreEnzimas = obtenerEnzimas(dsm.getEnzima());
 		crearBotones(nombreEnzimas);
 		keyWord = new SimpleAttributeSet();
 	    StyleConstants.setForeground(keyWord, Color.RED);
@@ -77,10 +77,6 @@ class Panel extends JPanel{
 		pintaNegro("hola jeje ",false);
 		pintaNegro("negro ",false);
 		pintaNegro("esto va en rojo",true);
-		
-		
-		
-		
 	}
 	
 	public void pintaNegro(String texto, boolean flag) {
@@ -185,12 +181,11 @@ class Panel extends JPanel{
 //		style = textPane.addStyle("Main Style", null);
 	}
 	
-	private String[] obtenerEnzimas(ArrayList<String[][]> enzimas){
+	private String[] obtenerEnzimas(ArrayList<String[]> enzimas){
 		String[] nombres = new String[enzimas.size()];
 		int pos = 0;
-		for(String[][] enzima: enzimas) {
-			System.out.println("["+enzima[0][0]+"]["+enzima[1][0]+"]");
-			nombres[pos++] = enzima[0][0];
+		for(String[] enzima: enzimas) {
+			nombres[pos++] = enzima[0];
 		}
 		return nombres;
 	}

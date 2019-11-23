@@ -16,27 +16,31 @@ public class DNAStringMatching {
 	private ArrayList<int[]> tablasKMPIndex;
 	private ArrayList<String[]> enzimas;
 	
+	public ArrayList<String[]> getEnzima(){
+		return this.enzimas;
+	}
+	
 	//Recibe los dos archivos
 	public void ingresaTexto() {
 		//Pedir path de archivo con enzimas de restricción
-		String possiblePath = "";
-		do {
-			possiblePath = JOptionPane.showInputDialog("Ingresa el path del archivo que contenga las enzimas de restricción a buscar");
-			if(possiblePath == null) {
-				System.exit(0);
-			}
-		} while(possiblePath.equals(""));
+		String possiblePath = "C:\\Users\\Hector\\Documents\\Algoritmos\\ProyectoAlgoritmos\\EnzimasRestriccion.txt";
+//		do {
+//			possiblePath = JOptionPane.showInputDialog("Ingresa el path del archivo que contenga las enzimas de restricción a buscar");
+//			if(possiblePath == null) {
+//				System.exit(0);
+//			}
+//		} while(possiblePath.equals(""));
 		this.enzimasRestriccion = new File(possiblePath);
 
 		//Pedir path de archivo con ADN donde se va a buscar
-		possiblePath = "";
-		do {
-			possiblePath = JOptionPane.showInputDialog("Ingresa el path del archivo que contenga el genoma donde se realizará la "
-					+ "busqueda");
-			if(possiblePath == null) {
-				System.exit(0);
-			}
-		} while(possiblePath.equals(""));
+		possiblePath = "C:\\Users\\Hector\\Documents\\Algoritmos\\ProyectoAlgoritmos\\chlorella_vulgaris.dat";
+//		do {
+//			possiblePath = JOptionPane.showInputDialog("Ingresa el path del archivo que contenga el genoma donde se realizará la "
+//					+ "busqueda");
+//			if(possiblePath == null) {
+//				System.exit(0);
+//			}
+//		} while(possiblePath.equals(""));
 		this.busqueda = new File(possiblePath);
 	}
 	
@@ -206,6 +210,9 @@ public class DNAStringMatching {
 	}
 	
 	private void hacerMultiplesTablas() {
+		for(String[] enz: this.enzimas) {
+			System.out.println("enzima: "+enz[0]);
+		}
 		for(int largo = 0; largo < this.enzimas.size(); largo++) {
 			String[] enzimaActual = this.enzimas.get(largo);
 			System.out.println("Creando tabla KMP para enzima " + enzimaActual[0]);
@@ -267,13 +274,4 @@ public class DNAStringMatching {
 		System.out.println();
 	}
 	
-	public static void main(String[] args) {
-		DNAStringMatching dsm = new DNAStringMatching();
-		dsm.ingresaTexto();
-		dsm.procesarArchivo();
-		dsm.crearTablas();
-		dsm.busquedaGeneral(0);
-		dsm.busquedaGeneral(1);
-		dsm.busquedaGeneral(2);
-	}
 }
