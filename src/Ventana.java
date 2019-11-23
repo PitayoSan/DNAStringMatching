@@ -35,35 +35,37 @@ public class Ventana extends JFrame{
 	}
 	public static void main(String[] args) {
 		new Ventana();
+		System.out.println("fin");
 	}
 }
 
 class Panel extends JPanel{
 	private JButton btnMst,
-					btnNot,
+					btnBuscar,
 					btnTaq;
 	
-	
+	JComboBox<String> bookList;
 // -----------------------------------------
 	private StyledDocument document;
 	private Style style;
 	
 	private JTextPane textPane;
 	private JScrollPane	scrollPane2;
-
 	
 // -----------------------------------------	
 	
 	public Panel(JFrame frame) {
 		super();
+		
 		this.setPreferredSize(new Dimension(1200,810));
 		this.setBackground(Color.darkGray.darker());
 		this.setLayout(null);
-		crearBotones();
-		pintaNegro("hola jeje",false);
-		pintaNegro("negro",false);
-		pintaNegro("esto va en rojo",true);
-		
+		String[] array = {"hola","no","v","si"};
+		crearBotones(array);
+//		style = textPane.addStyle("Main Style", null);
+		pintaNegro("hola jeje ",false);
+//		pintaNegro("negro ",false);
+//		pintaNegro("esto va en rojo",true);
 	}
 	
 	public void pintaNegro(String texto, boolean flag) {
@@ -78,10 +80,6 @@ class Panel extends JPanel{
 			try { document.insertString(document.getLength(), texto,style); }
 	        catch (BadLocationException e){}
 		}
-		
-		
-		
-		
 	}
 	
 	
@@ -125,62 +123,40 @@ class Panel extends JPanel{
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		this.btnMst.setVisible(true);
-		this.btnNot.setVisible(true);
-		this.btnTaq.setVisible(true);
-		//this.pane.setVisible(true);
-		//scrollPane.setVisible(true);
-		scrollPane2.setVisible(true);
+		this.btnBuscar.setVisible(true);
+//		this.pane.setVisible(false);
+//		scrollPane.setVisible(false);
+		scrollPane2.setVisible(false);
+		bookList.setVisible(true);
+//		popupMenu.setVisible(true);
 		
 		//this.scrollPane.setVisible(true);
 		
 		
-		g.setColor(Color.WHITE);
-		g.fillRect(200, 20, 900, 750);
-		
-		g.setColor(Color.red);
+//		g.setColor(Color.WHITE);
+//		g.fillRect(200, 20, 900, 750);
+//		
+//		g.setColor(Color.red);
 		
 	}
 	
-	private void crearBotones() {
-		this.btnMst = new JButton("MstII");
-		this.btnMst.setFont(new Font("Arial",Font.PLAIN,55));
-		this.btnMst.setForeground(Color.white);
-		this.btnMst.setBounds(0, 0 , 170, 70);
-		this.btnMst.setBackground(null);
-		this.btnMst.setBorderPainted(false);
-		this.add(this.btnMst);
-		this.btnMst.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("MstII");
-				repaint();
-			}
-		});
+	private void crearBotones(String[] array) {
 		
-		this.btnNot = new JButton("NotI");
-		this.btnNot.setFont(new Font("Arial",Font.PLAIN,55));
-		this.btnNot.setForeground(Color.white);
-		this.btnNot.setBounds(0, 70 , 170, 70);
-		this.btnNot.setBackground(null);
-		this.btnNot.setBorderPainted(false);
-		this.add(this.btnNot);
-		this.btnNot.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("NotI");
-				repaint();
-			}
-		});
 		
-		this.btnTaq = new JButton("TaqI");
-		this.btnTaq.setFont(new Font("Arial",Font.PLAIN,55));
-		this.btnTaq.setForeground(Color.white);
-		this.btnTaq.setBounds(0, 140 , 170, 70);
-		this.btnTaq.setBackground(null);
-		this.btnTaq.setBorderPainted(false);
-		this.add(this.btnTaq);
-		this.btnTaq.addActionListener(new ActionListener() {
+		bookList = new JComboBox<String>(array);
+		this.add(bookList);
+		bookList.setBounds(10, 10 , 200, 50);
+		
+		this.btnBuscar = new JButton("Buscar");
+		this.btnBuscar.setFont(new Font("Arial",Font.PLAIN,35));
+		this.btnBuscar.setForeground(Color.white);
+		this.btnBuscar.setBounds(0, 70 , 170, 70);
+		this.btnBuscar.setBackground(null);
+		this.btnBuscar.setBorderPainted(false);
+		this.add(this.btnBuscar);
+		this.btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("TaqI");
+				System.out.println("Enzima seleccionada: "+ bookList.getItemAt(bookList.getSelectedIndex()));
 				repaint();
 			}
 		});
@@ -216,7 +192,7 @@ class Panel extends JPanel{
 		this.add(scrollPane2);
 		
 		document = textPane.getStyledDocument();
-		style = textPane.addStyle("Main Style", null);
+//		style = textPane.addStyle("Main Style", null);
 		
 		
 		
