@@ -23,7 +23,7 @@ public class DNAStringMatching {
 	//Recibe los dos archivos
 	public void ingresaTexto() {
 		//Pedir path de archivo con enzimas de restricción
-		String possiblePath = "C:\\Users\\Hector\\Documents\\Algoritmos\\ProyectoAlgoritmos\\EnzimasRestriccion.txt";
+		String possiblePath = "C:\\Users\\david\\Git-Repos\\ProyectoAlgoritmos\\EnzimasRestriccion.txt";
 //		do {
 //			possiblePath = JOptionPane.showInputDialog("Ingresa el path del archivo que contenga las enzimas de restricción a buscar");
 //			if(possiblePath == null) {
@@ -33,7 +33,7 @@ public class DNAStringMatching {
 		this.enzimasRestriccion = new File(possiblePath);
 
 		//Pedir path de archivo con ADN donde se va a buscar
-		possiblePath = "C:\\Users\\Hector\\Documents\\Algoritmos\\ProyectoAlgoritmos\\chlorella_vulgaris.dat";
+		possiblePath = "C:\\Users\\david\\Git-Repos\\ProyectoAlgoritmos\\chlorella_vulgaris.dat";
 //		do {
 //			possiblePath = JOptionPane.showInputDialog("Ingresa el path del archivo que contenga el genoma donde se realizará la "
 //					+ "busqueda");
@@ -59,6 +59,14 @@ public class DNAStringMatching {
 	//La entrada es el número de enzima a buscar
 	public void busquedaGeneral(int seleccion) {
 		this.buscarEnzima(this.adn, seleccion);
+	}
+	
+	public String getAdn() {
+		return this.adn;
+	}
+	
+	public ArrayList<int[]> getIndexes() {
+		return tablasKMPIndex;
 	}
 	
 	//Para buscar una sola enzima

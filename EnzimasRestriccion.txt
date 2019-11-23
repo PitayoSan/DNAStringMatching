@@ -1,3 +1,4 @@
 MstII CCTAAGG
 NotI GCGGCCGC
 TaqI TCGA
+Prueba abcabdabp

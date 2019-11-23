@@ -52,6 +52,8 @@ class Panel extends JPanel{
 	private JScrollPane	scrollPane2;
 	SimpleAttributeSet keyWord;
 	
+	private int index;
+	
 // -----------------------------------------	
 	
 	public Panel() {
@@ -65,21 +67,18 @@ class Panel extends JPanel{
 		dsm.ingresaTexto();
 		dsm.procesarArchivo();
 		dsm.crearTablas();
-		dsm.busquedaGeneral(0);
-		dsm.busquedaGeneral(1);
-		dsm.busquedaGeneral(2);
 		
 		nombreEnzimas = obtenerEnzimas(dsm.getEnzima());
 		crearBotones(nombreEnzimas);
 		keyWord = new SimpleAttributeSet();
 	    StyleConstants.setForeground(keyWord, Color.RED);
 	    StyleConstants.setBold(keyWord, true);
-		pintaNegro("hola jeje ",false);
-		pintaNegro("negro ",false);
-		pintaNegro("esto va en rojo",true);
+		pintaLetras("hola jeje ",false);
+		pintaLetras("negro ",false);
+		pintaLetras("esto va en rojo",true);
 	}
 	
-	public void pintaNegro(String texto, boolean flag) {
+	public void pintaLetras(String texto, boolean flag) {
 		if (flag) {
 			try { document.insertString(document.getLength(), texto, keyWord); }
 	        catch (BadLocationException e){}
@@ -103,6 +102,7 @@ class Panel extends JPanel{
         tp.setCharacterAttributes(aset, false);
         tp.replaceSelection(msg);
     }
+	
 	
 	
 	
@@ -142,8 +142,16 @@ class Panel extends JPanel{
 		this.add(this.btnBuscar);
 		this.btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Enzima seleccionada: "+ listaEnzimas.getItemAt(listaEnzimas.getSelectedIndex()));
+				index = listaEnzimas.getSelectedIndex();
+				System.out.println("Enzima seleccionada: "+ listaEnzimas.getItemAt(index));
+				dsm.busquedaGeneral(listaEnzimas.getSelectedIndex());
+				
 				repaint();
+				
+				
+				
+				
+				
 			}
 		});
 		
@@ -163,18 +171,28 @@ class Panel extends JPanel{
 		textPane = new JTextPane();
 		textPane.setEditable(false);
 		
-		textPane.setText("This is demo text1. This is demo text2. This is demo text3."
-		         + "This is demo text4.This is demo text5. This is demo text6. "
-		         + "This is demo text7. This is demo text8. This is demo text9. "
-		         + "This is demo text10. This is demo text11. This is demo text12."
-		         + "This is demo text13. This is demo text13. This is demo text14."
-		         + "This is demo text15. This is demo text13. This is demo text16."
-		         + " This is demo text17. This is demo text13. This is demo text18."
-		         + " This is demo text19.This is demo text13.This is demo text20.\n");
+		//textPane.setText("This is demo text1. This is demo text2. This is demo text3. This is demo text4.This is demo text5. This is demo text6. This is demo text7. This is demo text8. This is demo text9.  This is demo text10. This is demo text11. This is demo text12. This is demo text13. This is demo text13. This is demo text14. This is demo text15. This is demo text13. This is demo text16. This is demo text17. This is demo text13. This is demo text18. This is demo text19.This is demo text13.This is demo text20.\n ");
+		
+		String prueba = dsm.getAdn();
+		ArrayList<int[]> indexes = dsm.getIndexes();
+		int tamanoSecuencia = ;
+		
+		for (int i = 0; i<prueba.length() ;i++) {
+			if (i%50 == 0){
+				pintaLetras(" ",false);
+			}
+			if (i == indexes.get(index)[i]) {
+				
+			}
+			
+			pintaLetras(Character.toString(prueba.charAt(i)),false);
+		
+		}
+		textPane.setText(prueba);
 		
 		scrollPane2 = new JScrollPane(textPane);
 		scrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		scrollPane2.setBounds(250, 20, 900, 750);
+		scrollPane2.setBounds(250, 20, 100, 100);
 		this.add(scrollPane2);
 		
 		document = textPane.getStyledDocument();
