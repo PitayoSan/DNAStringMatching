@@ -26,7 +26,7 @@ public class Ventana extends JFrame{
 	
 	public Ventana(){
 		super();
-		this.panel = new Panel(this);
+		this.panel = new Panel();
 		this.add(panel);
 		this.pack();
 		this.setVisible(true);
@@ -40,21 +40,20 @@ public class Ventana extends JFrame{
 }
 
 class Panel extends JPanel{
-	private JButton btnMst,
-					btnBuscar,
-					btnTaq;
+	private JButton btnBuscar;
 	
-	JComboBox<String> bookList;
+	JComboBox<String> listaEnzimas;
 // -----------------------------------------
 	private StyledDocument document;
 	private Style style;
 	
 	private JTextPane textPane;
 	private JScrollPane	scrollPane2;
+	SimpleAttributeSet keyWord;
 	
 // -----------------------------------------	
 	
-	public Panel(JFrame frame) {
+	public Panel() {
 		super();
 		
 		this.setPreferredSize(new Dimension(1200,810));
@@ -62,46 +61,24 @@ class Panel extends JPanel{
 		this.setLayout(null);
 		String[] array = {"hola","no","v","si"};
 		crearBotones(array);
-//		style = textPane.addStyle("Main Style", null);
+		keyWord = new SimpleAttributeSet();
+	    StyleConstants.setForeground(keyWord, Color.RED);
+	    StyleConstants.setBold(keyWord, true);
 		pintaNegro("hola jeje ",false);
-//		pintaNegro("negro ",false);
-//		pintaNegro("esto va en rojo",true);
+		pintaNegro("negro ",false);
+		pintaNegro("esto va en rojo",true);
 	}
 	
 	public void pintaNegro(String texto, boolean flag) {
-		style = textPane.addStyle("Main Style", null);
 		if (flag) {
-			StyleConstants.setForeground(style, Color.red);
-			try { document.insertString(document.getLength(), texto,style); }
+			try { document.insertString(document.getLength(), texto, keyWord); }
 	        catch (BadLocationException e){}
 		}
 		else {
-			StyleConstants.setForeground(style, Color.black);
-			try { document.insertString(document.getLength(), texto,style); }
+			try { document.insertString(document.getLength(), texto, null); }
 	        catch (BadLocationException e){}
 		}
 	}
-	
-	
-	
-//	public void paintBlackText(String textito) {
-//		
-//		
-//		StyleContext context = new StyleContext();
-//		// build a style
-//		Style style = context.addStyle("test", null);
-//		// set some style properties
-//		StyleConstants.setForeground(style, Color.BLUE);
-//		// add some data to the document
-//		try {
-//			document.insertString(0, textito, style);
-//		} catch (BadLocationException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//	}
-//	
 	
 	private void appendToPane(JTextPane tp, String msg, Color c)
     {
@@ -126,8 +103,8 @@ class Panel extends JPanel{
 		this.btnBuscar.setVisible(true);
 //		this.pane.setVisible(false);
 //		scrollPane.setVisible(false);
-		scrollPane2.setVisible(false);
-		bookList.setVisible(true);
+		scrollPane2.setVisible(true);
+		listaEnzimas.setVisible(true);
 //		popupMenu.setVisible(true);
 		
 		//this.scrollPane.setVisible(true);
@@ -140,12 +117,11 @@ class Panel extends JPanel{
 		
 	}
 	
-	private void crearBotones(String[] array) {
+	private void crearBotones(String[] enzimas) {
 		
-		
-		bookList = new JComboBox<String>(array);
-		this.add(bookList);
-		bookList.setBounds(10, 10 , 200, 50);
+		listaEnzimas = new JComboBox<String>(enzimas);
+		this.add(listaEnzimas);
+		listaEnzimas.setBounds(10, 10 , 200, 50);
 		
 		this.btnBuscar = new JButton("Buscar");
 		this.btnBuscar.setFont(new Font("Arial",Font.PLAIN,35));
@@ -156,7 +132,7 @@ class Panel extends JPanel{
 		this.add(this.btnBuscar);
 		this.btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Enzima seleccionada: "+ bookList.getItemAt(bookList.getSelectedIndex()));
+				System.out.println("Enzima seleccionada: "+ listaEnzimas.getItemAt(listaEnzimas.getSelectedIndex()));
 				repaint();
 			}
 		});
@@ -176,7 +152,7 @@ class Panel extends JPanel{
 		
 		textPane = new JTextPane();
 		textPane.setEditable(false);
-		/*
+		
 		textPane.setText("This is demo text1. This is demo text2. This is demo text3."
 		         + "This is demo text4.This is demo text5. This is demo text6. "
 		         + "This is demo text7. This is demo text8. This is demo text9. "
@@ -184,11 +160,11 @@ class Panel extends JPanel{
 		         + "This is demo text13. This is demo text13. This is demo text14."
 		         + "This is demo text15. This is demo text13. This is demo text16."
 		         + " This is demo text17. This is demo text13. This is demo text18."
-		         + " This is demo text19.This is demo text13.This is demo text20.");
-		*/
+		         + " This is demo text19.This is demo text13.This is demo text20.\n");
+		
 		scrollPane2 = new JScrollPane(textPane);
 		scrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		scrollPane2.setBounds(200, 20, 900, 750);
+		scrollPane2.setBounds(250, 20, 900, 750);
 		this.add(scrollPane2);
 		
 		document = textPane.getStyledDocument();
