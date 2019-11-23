@@ -15,6 +15,7 @@ public class DNAStringMatching {
 	private ArrayList<String[][]> tablasKMP;
 	private ArrayList<int[]> tablasKMPIndex;
 	private ArrayList<String[]> enzimas;
+	private ArrayList<Integer> coincidencias;
 	
 	public ArrayList<String[]> getEnzima(){
 		return this.enzimas;
@@ -23,7 +24,7 @@ public class DNAStringMatching {
 	//Recibe los dos archivos
 	public void ingresaTexto() {
 		//Pedir path de archivo con enzimas de restricción
-		String possiblePath = "C:\\Users\\david\\Git-Repos\\ProyectoAlgoritmos\\EnzimasRestriccion.txt";
+		String possiblePath = "C:\\Users\\Hector\\Documents\\Algoritmos\\ProyectoAlgoritmos\\EnzimasRestriccion.txt";
 //		do {
 //			possiblePath = JOptionPane.showInputDialog("Ingresa el path del archivo que contenga las enzimas de restricción a buscar");
 //			if(possiblePath == null) {
@@ -33,7 +34,7 @@ public class DNAStringMatching {
 		this.enzimasRestriccion = new File(possiblePath);
 
 		//Pedir path de archivo con ADN donde se va a buscar
-		possiblePath = "C:\\Users\\david\\Git-Repos\\ProyectoAlgoritmos\\chlorella_vulgaris.dat";
+		possiblePath = "C:\\Users\\Hector\\Documents\\Algoritmos\\ProyectoAlgoritmos\\chlorella_vulgaris.dat";
 //		do {
 //			possiblePath = JOptionPane.showInputDialog("Ingresa el path del archivo que contenga el genoma donde se realizará la "
 //					+ "busqueda");
@@ -65,8 +66,8 @@ public class DNAStringMatching {
 		return this.adn;
 	}
 	
-	public ArrayList<int[]> getIndexes() {
-		return tablasKMPIndex;
+	public ArrayList<Integer> getIndexes() {
+		return coincidencias;
 	}
 	
 	//Para buscar una sola enzima
@@ -96,7 +97,6 @@ public class DNAStringMatching {
 		}
 		System.out.println("Busqueda finalizada");
 	}
-	
 	//Alamecna las enzimas de restriccion
 	private ArrayList<String[]> almacenarEnzimas(File archivo) {
 		ArrayList<String[]> enzimas = new ArrayList<>();
@@ -127,6 +127,7 @@ public class DNAStringMatching {
 	}
 	
 	private int fuerzaBruta(String strTexto, String strPatron, int enzima) {
+		this.coincidencias = new ArrayList<Integer>();
 		int busquedaActual = 0;
 		int coincidencias = 0;
 		char[] texto = strTexto.toCharArray();
@@ -143,6 +144,7 @@ public class DNAStringMatching {
 				busquedaActual++;
 			}
 			System.out.println("Coincidencia en la posición: " + pos);
+			this.coincidencias.add(pos);
 			coincidencias++;
 			pos += busquedaActual - 1;
 			busquedaActual = 0;

@@ -41,7 +41,8 @@ public class Ventana extends JFrame{
 
 class Panel extends JPanel{
 	private JButton btnBuscar;
-	String[] nombreEnzimas;
+	String[] nombreEnzimas, secuencias;
+	
 	DNAStringMatching dsm;
 	
 	JComboBox<String> listaEnzimas;
@@ -69,13 +70,14 @@ class Panel extends JPanel{
 		dsm.crearTablas();
 		
 		nombreEnzimas = obtenerEnzimas(dsm.getEnzima());
-		crearBotones(nombreEnzimas);
 		keyWord = new SimpleAttributeSet();
 	    StyleConstants.setForeground(keyWord, Color.RED);
 	    StyleConstants.setBold(keyWord, true);
-		pintaLetras("hola jeje ",false);
-		pintaLetras("negro ",false);
-		pintaLetras("esto va en rojo",true);
+		crearBotones(nombreEnzimas);
+		
+//		pintaLetras("hola jeje ",false);
+//		pintaLetras("negro ",false);
+//		pintaLetras("esto va en rojo",true);
 	}
 	
 	public void pintaLetras(String texto, boolean flag) {
@@ -133,6 +135,22 @@ class Panel extends JPanel{
 		this.add(listaEnzimas);
 		listaEnzimas.setBounds(10, 10 , 200, 50);
 		
+		textPane = new JTextPane();
+		textPane.setEditable(false);
+		
+		//textPane.setText("This is demo text1. This is demo text2. This is demo text3. This is demo text4.This is demo text5. This is demo text6. This is demo text7. This is demo text8. This is demo text9.  This is demo text10. This is demo text11. This is demo text12. This is demo text13. This is demo text13. This is demo text14. This is demo text15. This is demo text13. This is demo text16. This is demo text17. This is demo text13. This is demo text18. This is demo text19.This is demo text13.This is demo text20.\n ");
+		
+		
+		
+//		textPane.setText(prueba);
+		
+		scrollPane2 = new JScrollPane(textPane);
+		scrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scrollPane2.setBounds(250, 20, 900, 750);
+		this.add(scrollPane2);
+		
+		document = textPane.getStyledDocument();
+		
 		this.btnBuscar = new JButton("Buscar");
 		this.btnBuscar.setFont(new Font("Arial",Font.PLAIN,35));
 		this.btnBuscar.setForeground(Color.white);
@@ -142,10 +160,39 @@ class Panel extends JPanel{
 		this.add(this.btnBuscar);
 		this.btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textPane.setText("");
 				index = listaEnzimas.getSelectedIndex();
 				System.out.println("Enzima seleccionada: "+ listaEnzimas.getItemAt(index));
 				dsm.busquedaGeneral(listaEnzimas.getSelectedIndex());
-				
+				String prueba = dsm.getAdn();
+				ArrayList<Integer> indexes = dsm.getIndexes();
+//				for(Integer arr: indexes) {
+//						System.out.println(arr);
+//					
+//				}
+				int tamanoSecuencia = secuencias[index].length();
+				int pos = 0;
+//				System.out.println("length: "+prueba.length());
+				for (int i = 0; i<prueba.length()-1 ;i++) {
+//					System.out.println(i);
+					if (i%50 == 0){
+						pintaLetras(" ",false);
+					}
+					if(!(pos == indexes.size())) {
+						if (i == indexes.get(pos)+1) {
+//							System.out.println("entro!");
+							for(int j = 0; j < tamanoSecuencia; j++) {
+								pintaLetras(Character.toString(prueba.charAt(i)),true);
+								i++;
+							}
+							pos++;
+						}
+					}
+					
+//					System.out.println(Character.toString(prueba.charAt(i)));
+					
+					pintaLetras(Character.toString(prueba.charAt(i)),false);
+				}
 				repaint();
 				
 				
@@ -168,41 +215,19 @@ class Panel extends JPanel{
 		
 		
 		
-		textPane = new JTextPane();
-		textPane.setEditable(false);
 		
-		//textPane.setText("This is demo text1. This is demo text2. This is demo text3. This is demo text4.This is demo text5. This is demo text6. This is demo text7. This is demo text8. This is demo text9.  This is demo text10. This is demo text11. This is demo text12. This is demo text13. This is demo text13. This is demo text14. This is demo text15. This is demo text13. This is demo text16. This is demo text17. This is demo text13. This is demo text18. This is demo text19.This is demo text13.This is demo text20.\n ");
 		
-		String prueba = dsm.getAdn();
-		ArrayList<int[]> indexes = dsm.getIndexes();
-		int tamanoSecuencia = ;
 		
-		for (int i = 0; i<prueba.length() ;i++) {
-			if (i%50 == 0){
-				pintaLetras(" ",false);
-			}
-			if (i == indexes.get(index)[i]) {
-				
-			}
-			
-			pintaLetras(Character.toString(prueba.charAt(i)),false);
 		
-		}
-		textPane.setText(prueba);
-		
-		scrollPane2 = new JScrollPane(textPane);
-		scrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		scrollPane2.setBounds(250, 20, 100, 100);
-		this.add(scrollPane2);
-		
-		document = textPane.getStyledDocument();
 //		style = textPane.addStyle("Main Style", null);
 	}
 	
 	private String[] obtenerEnzimas(ArrayList<String[]> enzimas){
 		String[] nombres = new String[enzimas.size()];
+		this.secuencias = new String[enzimas.size()];
 		int pos = 0;
 		for(String[] enzima: enzimas) {
+			this.secuencias[pos] = enzima[1];
 			nombres[pos++] = enzima[0];
 		}
 		return nombres;
