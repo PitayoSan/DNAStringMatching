@@ -231,6 +231,7 @@ class Panel extends JPanel{
 			System.out.println(enzima[1]);
 			nombres[pos++] = enzima[0];
 		}
+		System.out.println();
 		return nombres;
 	}
 }
