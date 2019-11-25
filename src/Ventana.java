@@ -26,7 +26,7 @@ public class Ventana extends JFrame{
 	private Panel panel;
 	
 	public Ventana(){
-		super();
+		super("Busqueda Genoma");
 		this.panel = new Panel();
 		this.add(panel);
 		this.pack();
@@ -59,7 +59,6 @@ class Panel extends JPanel{
 	
 	public Panel() {
 		super();
-		
 		this.setPreferredSize(new Dimension(1200,810));
 		this.setBackground(Color.darkGray.darker());
 		this.setLayout(null);
@@ -133,7 +132,7 @@ class Panel extends JPanel{
 		
 		listaEnzimas = new JComboBox<String>(enzimas);
 		this.add(listaEnzimas);
-		listaEnzimas.setBounds(10, 10 , 200, 50);
+		listaEnzimas.setBounds(20, 250 , 200, 50);
 		
 		textPane = new JTextPane();
 		textPane.setEditable(false);
@@ -146,7 +145,7 @@ class Panel extends JPanel{
 		
 		scrollPane2 = new JScrollPane(textPane);
 		scrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		scrollPane2.setBounds(250, 20, 900, 750);
+		scrollPane2.setBounds(250, 40, 900, 750);
 		this.add(scrollPane2);
 		
 		document = textPane.getStyledDocument();
@@ -154,7 +153,7 @@ class Panel extends JPanel{
 		this.btnBuscar = new JButton("Buscar");
 		this.btnBuscar.setFont(new Font("Arial",Font.PLAIN,35));
 		this.btnBuscar.setForeground(Color.white);
-		this.btnBuscar.setBounds(0, 70 , 170, 70);
+		this.btnBuscar.setBounds(20, 160 , 170, 70);
 		this.btnBuscar.setBackground(null);
 		this.btnBuscar.setBorderPainted(false);
 		this.add(this.btnBuscar);
