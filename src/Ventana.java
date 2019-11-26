@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import javax.swing.*;
 import javax.swing.JButton;
@@ -165,33 +167,54 @@ class Panel extends JPanel{
 				dsm.busquedaGeneral(listaEnzimas.getSelectedIndex());
 				String prueba = dsm.getAdn();
 				ArrayList<Integer> indexes = dsm.getIndexes();
+				System.out.println("el largo de indexes es de: "+indexes.size());
+				System.out.println("el primer index es: "+indexes.get(0));
 //				for(Integer arr: indexes) {
 //						System.out.println(arr);
 //					
 //				}
 				int tamanoSecuencia = secuencias[index].length();
+				System.out.println("el tamano de secuencia es: "+tamanoSecuencia);
 				int pos = 0;
+				int c =0;
+				System.out.println("length prueba: "+prueba.length());
+				Queue<Integer> cola = new LinkedList<Integer>();
+				for(Integer num: indexes) {
+					cola.add(num);
+				}
+				System.out.println("length cola "+cola.size());
 //				System.out.println("length: "+prueba.length());
 				for (int i = 0; i<prueba.length()-1 ;i++) {
 //					System.out.println(i);
 					if (i%50 == 0){
 						pintaLetras(" ",false);
 					}
-					if(!(pos == indexes.size())) {
-						if (i == indexes.get(pos)) {
+					if(pos < indexes.size()) {
+//						System.out.println(indexes.get(pos));
+						
+						if ( Integer.valueOf(i).compareTo(indexes.get(pos)) == 0 ) {
+							System.out.println("i: "+i);
+							System.out.println("pos: "+pos);
+							System.out.println("index: "+indexes.get(pos));
 //							System.out.println("entro!");
-							for(int j = 0; j < tamanoSecuencia; j++) {
+							for(int j = 0; j < tamanoSecuencia ; j++) {
+								
+								System.out.println("pintando!");
 								pintaLetras(Character.toString(prueba.charAt(i)),true);
 								i++;
 							}
+							i--;
+							c++;
 							pos++;
 						}
+//						System.out.println("entro "+c+" veces");
 					}
 					
 //					System.out.println(Character.toString(prueba.charAt(i)));
 					
 					pintaLetras(Character.toString(prueba.charAt(i)),false);
 				}
+				System.out.println("entro "+c+" veces");
 				repaint();
 				
 				
