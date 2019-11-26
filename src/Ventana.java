@@ -178,11 +178,6 @@ class Panel extends JPanel{
 				int pos = 0;
 				int c =0;
 				System.out.println("length prueba: "+prueba.length());
-				Queue<Integer> cola = new LinkedList<Integer>();
-				for(Integer num: indexes) {
-					cola.add(num);
-				}
-				System.out.println("length cola "+cola.size());
 //				System.out.println("length: "+prueba.length());
 				for (int i = 0; i<prueba.length()-1 ;i++) {
 //					System.out.println(i);
