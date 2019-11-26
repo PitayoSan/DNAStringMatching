@@ -167,17 +167,12 @@ class Panel extends JPanel{
 				dsm.busquedaGeneral(listaEnzimas.getSelectedIndex());
 				String prueba = dsm.getAdn();
 				ArrayList<Integer> indexes = dsm.getIndexes();
-				System.out.println("el largo de indexes es de: "+indexes.size());
-				System.out.println("el primer index es: "+indexes.get(0));
 //				for(Integer arr: indexes) {
 //						System.out.println(arr);
 //					
 //				}
 				int tamanoSecuencia = secuencias[index].length();
-				System.out.println("el tamano de secuencia es: "+tamanoSecuencia);
 				int pos = 0;
-				int c =0;
-				System.out.println("length prueba: "+prueba.length());
 //				System.out.println("length: "+prueba.length());
 				for (int i = 0; i<prueba.length()-1 ;i++) {
 //					System.out.println(i);
@@ -188,18 +183,12 @@ class Panel extends JPanel{
 //						System.out.println(indexes.get(pos));
 						
 						if ( Integer.valueOf(i).compareTo(indexes.get(pos)) == 0 ) {
-							System.out.println("i: "+i);
-							System.out.println("pos: "+pos);
-							System.out.println("index: "+indexes.get(pos));
 //							System.out.println("entro!");
 							for(int j = 0; j < tamanoSecuencia ; j++) {
-								
-								System.out.println("pintando!");
 								pintaLetras(Character.toString(prueba.charAt(i)),true);
 								i++;
 							}
 							i--;
-							c++;
 							pos++;
 						}
 //						System.out.println("entro "+c+" veces");
@@ -209,7 +198,6 @@ class Panel extends JPanel{
 					
 					pintaLetras(Character.toString(prueba.charAt(i)),false);
 				}
-				System.out.println("entro "+c+" veces");
 				repaint();
 				
 				
